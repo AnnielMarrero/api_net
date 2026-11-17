@@ -1,0 +1,19 @@
+## Build output
+bin/
+obj/
+
+## Local .NET CLI state
+.dotnet-cli-home/
+.nuget-packages/
+
+## IDE files
+.vs/
+.idea/
+*.user
+*.suo
+
+## Local databases and secrets
+*.db
+*.sqlite
+*.sqlite3
+appsettings.Local.json
