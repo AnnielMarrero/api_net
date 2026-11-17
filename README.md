@@ -67,7 +67,7 @@ El repositorio encapsula las consultas de EF Core y `UnitOfWork` centraliza `Sav
    ```bash
    dotnet run --project src/TaskManagement.Api
    or
-   $env:DB_SERVER="localhost"; $env:DB_PORT="1433"; $env:DB_NAME="TaskManagement"; $env:DB_USER="anniel"; $env:DB_PASSWORD="anniel"; $env:DB_TRUST_SERVER_CERTIFICATE="true"; $env:DB_ENCRYPT="false"; dotnet run --project .\src\TaskManagement.Api\TaskManagement.Api.csproj --urls http://localhost:5014
+   $env:DB_SERVER="localhost"; $env:DB_NAME="TaskManagement"; $env:DB_USER="anniel"; $env:DB_PASSWORD="anniel"; $env:DB_TRUST_SERVER_CERTIFICATE="true"; $env:DB_ENCRYPT="false"; dotnet run --project .\src\TaskManagement.Api\TaskManagement.Api.csproj --urls http://localhost:5014
    ```
 
 La conexión se configura mediante variables de entorno. La API acepta una cadena completa en `ConnectionStrings__DefaultConnection` o construye la conexión desde `DB_SERVER`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_TRUST_SERVER_CERTIFICATE` y `DB_ENCRYPT`.

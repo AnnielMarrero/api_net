@@ -27,7 +27,7 @@ public static class DatabaseConnectionStringFactory
         {
             // Omitting DB_PORT preserves local SQL Server protocol resolution
             // (for example Shared Memory or a named instance).
-            DataSource = string.IsNullOrWhiteSpace(port) ? server : $"{server},{port}",
+            DataSource = string.IsNullOrWhiteSpace(port) ? server : $"{server}",
             InitialCatalog = configuration["DB_NAME"] ?? "TaskManagement",
             UserID = configuration["DB_USER"] ?? "sa",
             Password = password,
