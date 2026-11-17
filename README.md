@@ -34,8 +34,21 @@ El repositorio encapsula las consultas de EF Core y `UnitOfWork` centraliza `Sav
 
 1. Iniciar SQL Server:
 
-   ```bash
+   ```powershell
+   Copy-Item .env.example .env
    docker compose up -d sqlserver
+   ```
+
+   Para que `dotnet ef` y la API reciban las mismas variables en PowerShell, cárgalas también en la sesión actual:
+
+   ```powershell
+   $env:DB_SERVER = "localhost"
+   $env:DB_PORT = "1433"
+   $env:DB_NAME = "TaskManagement"
+   $env:DB_USER = "sa"
+   $env:DB_PASSWORD = "Your_password123"
+   $env:DB_TRUST_SERVER_CERTIFICATE = "true"
+   $env:DB_ENCRYPT = "false"
    ```
 
 2. Aplicar la migración inicial:
@@ -55,7 +68,22 @@ El repositorio encapsula las consultas de EF Core y `UnitOfWork` centraliza `Sav
    dotnet run --project src/TaskManagement.Api
    ```
 
-La cadena de conexión de ejemplo está en `src/TaskManagement.Api/appsettings.json`. Para un entorno real debe sustituirse mediante variables de configuración, User Secrets o un gestor de secretos; no se deben versionar credenciales reales.
+La conexión se configura mediante variables de entorno. La API acepta una cadena completa en `ConnectionStrings__DefaultConnection` o construye la conexión desde `DB_SERVER`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_TRUST_SERVER_CERTIFICATE` y `DB_ENCRYPT`.
+
+Para ejecutar la API desde PowerShell con el SQL Server del compose:
+
+```powershell
+$env:DB_SERVER = "localhost"
+$env:DB_PORT = "1433"
+$env:DB_NAME = "TaskManagement"
+$env:DB_USER = "sa"
+$env:DB_PASSWORD = "Your_password123"
+$env:DB_TRUST_SERVER_CERTIFICATE = "true"
+$env:DB_ENCRYPT = "false"
+dotnet run --project src/TaskManagement.Api
+```
+
+`.env` está excluido de Git. En un entorno real deben usarse variables del sistema, User Secrets o un gestor de secretos; no se deben versionar credenciales reales.
 
 ## Endpoints principales
 
