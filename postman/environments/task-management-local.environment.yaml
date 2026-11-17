@@ -1,0 +1,17 @@
+name: Task Management Local
+values:
+  - key: base_url
+    value: 'http://localhost:5014'
+    enabled: true
+    type: default
+    description: Local API URL.
+  - key: task_id
+    value: ''
+    enabled: true
+    type: default
+    description: Set automatically by the create request.
+  - key: responsible
+    value: 'Ana'
+    enabled: true
+    type: default
+    description: Responsible person used by the collection.

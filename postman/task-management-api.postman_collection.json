@@ -1,0 +1,205 @@
+{
+  "info": {
+    "name": "Task Management API",
+    "description": "CRUD, filtering and pagination checks for the Task Management API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5014"
+    },
+    {
+      "key": "task_id",
+      "value": ""
+    },
+    {
+      "key": "responsible",
+      "value": "Ana"
+    }
+  ],
+  "item": [
+    {
+      "name": "Create task",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('create returns 201', function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    const task = pm.response.json();",
+              "    pm.test('created task has an id', function () {",
+              "        pm.expect(task.id).to.be.a('string').and.not.empty;",
+              "    });",
+              "    pm.environment.set('task_id', task.id);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Prepare Postman report\",\n  \"description\": \"Created by the Postman collection\",\n  \"status\": \"Pending\",\n  \"responsible\": \"{{responsible}}\",\n  \"dueDateUtc\": \"2026-12-31T00:00:00Z\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{base_url}}/api/tasks"
+      }
+    },
+    {
+      "name": "List filtered tasks",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('list returns 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "if (pm.response.code === 200) {",
+              "    const page = pm.response.json();",
+              "    pm.test('list returns pagination metadata', function () {",
+              "        pm.expect(page).to.have.property('items');",
+              "        pm.expect(page).to.have.property('page');",
+              "        pm.expect(page).to.have.property('pageSize');",
+              "        pm.expect(page).to.have.property('totalCount');",
+              "        pm.expect(page).to.have.property('totalPages');",
+              "    });",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/api/tasks?page=1&pageSize=20&status=Pending&responsible={{responsible}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "tasks"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "pageSize",
+              "value": "20"
+            },
+            {
+              "key": "status",
+              "value": "Pending"
+            },
+            {
+              "key": "responsible",
+              "value": "{{responsible}}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get task by id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('get returns 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "if (pm.response.code === 200) {",
+              "    pm.test('returned task matches the created id', function () {",
+              "        pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get('task_id'));",
+              "    });",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/tasks/{{task_id}}"
+      }
+    },
+    {
+      "name": "Update task",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('update returns 204', function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Prepare updated Postman report\",\n  \"description\": \"Updated by the Postman collection\",\n  \"status\": \"InProgress\",\n  \"responsible\": \"{{responsible}}\",\n  \"dueDateUtc\": \"2026-12-31T00:00:00Z\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{base_url}}/api/tasks/{{task_id}}"
+      }
+    },
+    {
+      "name": "Delete task",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('delete returns 204', function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "url": "{{base_url}}/api/tasks/{{task_id}}"
+      }
+    }
+  ]
+}

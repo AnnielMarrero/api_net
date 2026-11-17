@@ -1,0 +1,28 @@
+$kind: http-request
+name: Update task
+order: 4000
+method: PUT
+url: '{{base_url}}/api/tasks/{{task_id}}'
+pathVariables:
+  - key: task_id
+    value: '{{task_id}}'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "title": "Prepare updated Postman report",
+      "description": "Updated by the Postman collection",
+      "status": "InProgress",
+      "responsible": "{{responsible}}",
+      "dueDateUtc": "2026-12-31T00:00:00Z"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('update returns 204', function () {
+        pm.response.to.have.status(204);
+      });

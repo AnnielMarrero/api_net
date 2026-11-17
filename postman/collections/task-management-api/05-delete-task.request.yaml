@@ -1,0 +1,15 @@
+$kind: http-request
+name: Delete task
+order: 5000
+method: DELETE
+url: '{{base_url}}/api/tasks/{{task_id}}'
+pathVariables:
+  - key: task_id
+    value: '{{task_id}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('delete returns 204', function () {
+        pm.response.to.have.status(204);
+      });

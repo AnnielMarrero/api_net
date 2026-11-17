@@ -1,0 +1,13 @@
+$kind: collection
+name: Task Management API
+description: CRUD, filtering and pagination checks for the Task Management API.
+variables:
+  - key: base_url
+    value: 'http://localhost:5014'
+    description: Local API base URL.
+  - key: task_id
+    value: ''
+    description: Set automatically after creating a task.
+  - key: responsible
+    value: 'Ana'
+    description: Responsible person used by the filter request.

@@ -1,0 +1,33 @@
+$kind: http-request
+name: Create task
+order: 1000
+method: POST
+url: '{{base_url}}/api/tasks'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "title": "Prepare Postman report",
+      "description": "Created by the Postman collection",
+      "status": "Pending",
+      "responsible": "{{responsible}}",
+      "dueDateUtc": "2026-12-31T00:00:00Z"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('create returns 201', function () {
+        pm.response.to.have.status(201);
+      });
+
+      if (pm.response.code === 201) {
+        const task = pm.response.json();
+        pm.test('created task has an id', function () {
+          pm.expect(task.id).to.be.a('string').and.not.empty;
+        });
+        pm.environment.set('task_id', task.id);
+      }
