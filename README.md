@@ -72,6 +72,8 @@ El repositorio encapsula las consultas de EF Core y `UnitOfWork` centraliza `Sav
 
 La conexión se configura mediante variables de entorno. La API acepta una cadena completa en `ConnectionStrings__DefaultConnection` o construye la conexión desde `DB_SERVER`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_TRUST_SERVER_CERTIFICATE` y `DB_ENCRYPT`.
 
+Para una instancia local por defecto de SQL Server, deja `DB_PORT` sin definir: así el cliente puede resolver Shared Memory o la instancia local. Define `DB_PORT=1433` únicamente cuando TCP/IP esté habilitado y SQL Server escuche explícitamente en ese puerto.
+
 Para ejecutar la API desde PowerShell con el SQL Server del compose:
 
 ```powershell

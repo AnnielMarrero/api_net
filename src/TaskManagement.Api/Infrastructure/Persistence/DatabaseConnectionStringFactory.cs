@@ -22,10 +22,12 @@ public static class DatabaseConnectionStringFactory
         }
 
         var server = configuration["DB_SERVER"] ?? "localhost";
-        var port = configuration["DB_PORT"] ?? "1433";
+        var port = configuration["DB_PORT"];
         var builder = new SqlConnectionStringBuilder
         {
-            DataSource = $"{server},{port}",
+            // Omitting DB_PORT preserves local SQL Server protocol resolution
+            // (for example Shared Memory or a named instance).
+            DataSource = string.IsNullOrWhiteSpace(port) ? server : $"{server},{port}",
             InitialCatalog = configuration["DB_NAME"] ?? "TaskManagement",
             UserID = configuration["DB_USER"] ?? "sa",
             Password = password,

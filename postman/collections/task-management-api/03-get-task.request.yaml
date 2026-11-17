@@ -16,6 +16,6 @@ scripts:
 
       if (pm.response.code === 200) {
         pm.test('returned task matches the created id', function () {
-          pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get('task_id'));
+          pm.expect(pm.response.json().id).to.eql(pm.environment.get('task_id'));
         });
       }
